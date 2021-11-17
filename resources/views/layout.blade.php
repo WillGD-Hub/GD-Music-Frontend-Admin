@@ -131,6 +131,20 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown">
+                <a href="#crawl" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                    <i class="fe fe-edit fe-16"></i>
+                    <span class="ml-3 item-text">Crawler</span><span class="sr-only">(current)</span>
+                </a>
+                <ul class="collapse list-unstyled pl-4 w-100" id="crawl">
+                        <li class="nav-item active">
+                            <a class="nav-link pl-3" href="{{url('crawl')}}"><span class="ml-1 item-text">List Crawler</span></a>
+                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link pl-3" href="{{url('crawl/insert')}}"><span class="ml-1 item-text">Tambah Crawler</span></a>
+                    </li>
+                </ul>
+            </li>
 
             {{-- INFORMASI USER --}}
             <p class="text-muted nav-heading mt-3 mb-1">

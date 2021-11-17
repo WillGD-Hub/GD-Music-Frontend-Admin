@@ -197,24 +197,43 @@
     <div class="row my-4">
         <div class="col-md-12">
             <div class="card shadow">
+
                 <div class="card-header">
                     <strong class="card-title">Control Song</strong>
                 </div>
+
                 <div class="card-body row-md-12">
-                    <div class="row-md-12 d-flex justify-content-around">
-                        <a class="mr-2" href="{{url('/song/get-all-lyric')}}">
-                            <button type="button" class="btn mb-2 btn-primary">Get All Lyric with No Lyric</button>
-                        </a>
-                        <a class="ml-2" href="{{url('/song/get-all-hash')}}">
-                            <button type="button" class="btn mb-2 btn-primary">Get All Hash with No Hash</button>
-                        </a>
-                        <a class="mr-2" href="{{url('/song/refresh-lyric')}}">
-                            <button type="button" class="btn mb-2 btn-warning">Refresh All Lyric</button>
-                        </a>
-                        <a class="ml-2" href="{{url('/song/refresh-hash')}}">
-                            <button type="button" class="btn mb-2 btn-warning">Refresh All Hash</button>
-                        </a>
+                    <h4>Control Hashes</h4>
+                    <div class="row-md-12 d-flex justify-content-start">
+                        <button type="button" class="btn mb-2 btn-primary mr-2" url="{{url('/song/get-all-hash')}}" id="button_get_hash">Get All Hash with No Hash</button>
+                        <button type="button" class="btn mb-2 btn-warning ml-2" url="{{url('/song/refresh-hash')}}" id="button_refresh_hash">Refresh All Hash</button>
                     </div>
+                </div>
+
+                <div class="card-body row-md-12">
+                    <h4>Control Lyrics</h4>
+                    <form action="{{url('/crawl/get-lyric/-1')}}" method="get" id="form_lyrics">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <label for="crawl_id">Crawl Sources</label>
+                            <select class="form-control" id="crawl_id" name="crawl_id">
+                                @foreach ($crawls as $item)
+                                    <option value="{{$item->crawl_id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="crawl_option">Get Lyrics Type</label>
+                            <select class="form-control" id="crawl_option" name="crawl_option">
+                                <option value="get">Get All Lyrics with No Lyrics</option>
+                                <option value="refresh">Refresh Lyrics</option>
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-start">
+                            <button type="submit" class="btn mb-2 btn-primary" id="button_get_lyric">Get Lyrics</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -228,6 +247,22 @@
     <script>
         $(document).ready(function () {
             filterSong("RESET");
+        });
+
+        $("#button_get_hash").click(function() {
+            confirmationModal(
+                "Hash song",
+                "Apakah anda yakin untuk mendapatkan semua hash pada data song yang tidak memiliki hash?",
+                $(this).attr('url')
+            );
+        });
+
+        $("#button_refresh_hash").click(function() {
+            confirmationModal(
+                "Hash song",
+                "Apakah anda yakin untuk menghapus dan mendapatkan kembali semua hash pada semua data song?",
+                $(this).attr('url')
+            );
         });
 
         const toggleDate = (tipe) => {

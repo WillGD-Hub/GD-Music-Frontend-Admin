@@ -97,11 +97,6 @@
                             <div class="valid-feedback"> Sudah benar! </div>
                             <div class="invalid-feedback">@error('img') {{$message}} @enderror</div>
                         </div>
-
-                        @if ($song->deleted_at == null)
-                            <button class="btn btn-primary" type="button" id="button_hash" url="{{url('song/hash/'.$song->song_id)}}">Get Hash</button>
-                            <button class="btn btn-primary" type="button" id="button_lyric" url="{{url('song/lyric/'.$song->song_id)}}">Get Lyric</button>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -148,6 +143,49 @@
         </div>
 
     </form>
+
+
+
+    @if ($song->deleted_at == null)
+
+        <div class="row my-4">
+            <div class="col-md-12">
+                <div class="card shadow">
+
+                    <div class="card-header">
+                        <strong class="card-title">Control Song</strong>
+                    </div>
+
+                    <div class="card-body row-md-12">
+                        <h4>Control Hashes</h4>
+                        <div class="row-md-12 d-flex justify-content-start">
+                            <button class="btn btn-primary" type="button" id="button_hash" url="{{url('song/hash/'.$song->song_id)}}">Get Hash</button>
+                        </div>
+                    </div>
+
+                    <div class="card-body row-md-12">
+                        <h4>Control Lyrics</h4>
+                        <form action="{{url('/crawl/get-lyric/'.$song->song_id)}}" method="get" id="form_lyrics">
+                            @csrf
+                            <div class="form-group mb-3 mt-3">
+                                <label for="crawl_id">Crawl Sources</label>
+                                <select class="form-control" id="crawl_id" name="crawl_id">
+                                    @foreach ($crawls as $item)
+                                        <option value="{{$item->crawl_id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                <button type="submit" class="btn mb-2 btn-primary" id="button_get_lyric">Get Lyrics</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    @endif
 @endsection
 
 @push('script')

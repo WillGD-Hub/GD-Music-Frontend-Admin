@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artist;
+use App\Models\Crawl;
 use App\Models\Genre;
 use App\Models\Song;
 use App\Rules\AudioFile;
@@ -16,7 +17,8 @@ class SongController extends Controller
     {
         $genres = Genre::withTrashed()->get();
         $artists = Artist::withTrashed()->get();
-        return view('song.index', compact('genres', 'artists'));
+        $crawls = Crawl::all();
+        return view('song.index', compact('genres', 'artists', 'crawls'));
     }
 
     public function filterSong(Request $request)
@@ -133,9 +135,10 @@ class SongController extends Controller
     // UPDATE
     public function viewUpdate($song_id)
     {
+        $crawls = Crawl::all();
         $song = Song::withTrashed()->find($song_id);
         $artists = Artist::withTrashed()->get();
-        return view('song.update', compact('song', 'artists'));
+        return view('song.update', compact('song', 'artists', 'crawls'));
     }
 
     public function update(Request $request, $song_id)
@@ -214,7 +217,7 @@ class SongController extends Controller
         return redirect('song/update/' . $song_id)->with('success', 'Data song berhasil diubah!');
     }
 
-    public function getAllLyric(Request $request)
+    public function getAllLyric(Request $request, $crawl_id)
     {
         $client = new Client([
             'base_uri' => env('BACK_END_URL')
@@ -223,6 +226,9 @@ class SongController extends Controller
         $response = $client->request('POST', '/admin/song/lyric/all', [
             'headers'  => [
                 'auth_token' => $request->session()->get('auth_token')
+            ],
+            'form_params' => [
+                'crawl_id' => $crawl_id
             ]
         ]);
 
@@ -257,7 +263,7 @@ class SongController extends Controller
         }
     }
 
-    public function refreshLyric(Request $request)
+    public function refreshLyric(Request $request, $crawl_id)
     {
         $client = new Client([
             'base_uri' => env('BACK_END_URL')
@@ -266,6 +272,9 @@ class SongController extends Controller
         $response = $client->request('POST', '/admin/song/lyric/refresh', [
             'headers'  => [
                 'auth_token' => $request->session()->get('auth_token')
+            ],
+            'form_params' => [
+                'crawl_id' => $crawl_id
             ]
         ]);
 
@@ -321,7 +330,7 @@ class SongController extends Controller
         }
     }
 
-    public function getLyricSong(Request $request, $song_id)
+    public function getLyricSong(Request $request, $song_id, $crawl_id)
     {
         $client = new Client([
             'base_uri' => env('BACK_END_URL')
@@ -330,6 +339,9 @@ class SongController extends Controller
         $response = $client->request('POST', '/admin/song/lyric/' . $song_id, [
             'headers'  => [
                 'auth_token' => $request->session()->get('auth_token')
+            ],
+            'form_params' => [
+                'crawl_id' => $crawl_id
             ]
         ]);
 

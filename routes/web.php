@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\CrawlController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
@@ -23,6 +24,27 @@ Route::group(["middleware" => ["LoginCheck:online", "RoleCheck:ADMIN"]], functio
 
     // DASHBOARD
     Route::get('/dashboard', [AdminController::class, "dashboard"]);
+
+    // CRAWL
+    Route::prefix('crawl')->name('crawl.')->group(function () {
+        // INDEX
+        Route::get('/', [CrawlController::class, "index"]);
+        Route::get('/filter-crawl', [CrawlController::class, "filterCrawl"]);
+
+        // INSERT
+        Route::get('/insert', [CrawlController::class, "viewInsert"]);
+        Route::post('/insert', [CrawlController::class, "insert"]);
+
+        // UPDATE
+        Route::get('/update/{id}', [CrawlController::class, "viewUpdate"]);
+        Route::post('/update/{id}', [CrawlController::class, "update"]);
+
+        // DELETE
+        Route::get('/delete/{id}', [CrawlController::class, "delete"]);
+
+        // GET LYRICS
+        Route::get('/get-lyric/{song_id}', [CrawlController::class, "getLyrics"]);
+    });
 
     // GENRE
     Route::prefix('genre')->name('genre.')->group(function () {
@@ -80,13 +102,14 @@ Route::group(["middleware" => ["LoginCheck:online", "RoleCheck:ADMIN"]], functio
         Route::get('/update/{id}', [SongController::class, "viewUpdate"]);
         Route::post('/update/{id}', [SongController::class, "update"]);
 
-        Route::get('/get-all-lyric', [SongController::class, "getAllLyric"]);
+        Route::get('/get-all-lyric/{crawl_id}', [SongController::class, "getAllLyric"]);
+        Route::get('/refresh-lyric/{crawl_id}', [SongController::class, "refreshLyric"]);
+
         Route::get('/get-all-hash', [SongController::class, "getAllHash"]);
-        Route::get('/refresh-lyric', [SongController::class, "refreshLyric"]);
         Route::get('/refresh-hash', [SongController::class, "refreshHash"]);
 
         Route::get('/hash/{id}', [SongController::class, "getHashSong"]);
-        Route::get('/lyric/{id}', [SongController::class, "getLyricSong"]);
+        Route::get('/lyric/{song_id}/{crawl_id}', [SongController::class, "getLyricSong"]);
 
         // DELETE
         Route::get('/delete/{id}', [SongController::class, "delete"]);
