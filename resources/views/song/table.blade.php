@@ -33,29 +33,29 @@
                     <td>{{$item->total_hash}}</td>
                     <td>
                         <span class="badge badge-pill @if($item->file == null) badge-danger @else badge-success @endif" style="font-size: 100%;">
-                            @if ($item->file == null) NO-FILE @else HAS-FILE @endif
+                            @if ($item->file == null) <i class="fe fe-x-circle fe-16"></i> @else <i class="fe fe-check-circle fe-16"></i> @endif
                         </span>
                     </td>
                     <td>
                         <span class="badge badge-pill @if($item->img == null) badge-danger @else badge-success @endif" style="font-size: 100%;">
-                            @if ($item->img == null) NO-IMAGE @else HAS-IMAGE @endif
+                            @if ($item->img == null) <i class="fe fe-x-circle fe-16"></i> @else <i class="fe fe-check-circle fe-16"></i> @endif
                         </span>
                     </td>
                     <td>
                         <span class="badge badge-pill @if($item->lyrics == null) badge-danger @else badge-success @endif" style="font-size: 100%;">
-                            @if ($item->lyrics == null) NO-LYRIC @else {{$item->source_lyrics}} @endif
+                            @if ($item->lyrics == null) <i class="fe fe-x-circle fe-16"></i> @else {{$item->source_lyrics}} @endif
                         </span>
                     </td>
                     <td>
                         <span class="badge badge-pill @if($item->has_hash == null) badge-danger @else badge-success @endif" style="font-size: 100%;">
-                            @if ($item->has_hash == null) NO-HASH @else HAS-HASH @endif
+                            @if ($item->has_hash == null) <i class="fe fe-x-circle fe-16"></i> @else <i class="fe fe-check-circle fe-16"></i> @endif
                         </span>
                     </td>
                     <td>{{$item->created_at}}</td>
                     <td>{{$item->updated_at}}</td>
                     <td>
                         <span class="badge badge-pill @if($item->deleted_at == null) badge-success @else badge-danger @endif" style="font-size: 100%;">
-                            @if ($item->deleted_at == null) AVAILABLE @else DELETED @endif
+                            @if ($item->deleted_at == null) <i class="fe fe-check-circle fe-16"></i> @else <i class="fe fe-x-circle fe-16"></i> @endif
                         </span>
                     </td>
                     <td><a href="{{url('/song/update/'.$item->song_id)}}"><button class="btn btn-primary">Edit</button></a></td>

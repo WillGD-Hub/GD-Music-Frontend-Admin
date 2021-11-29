@@ -25,7 +25,7 @@
                     <td>{{$item->Genre->name}}</td>
                     <td>
                         <span class="badge badge-pill @if($item->img == null) badge-danger @else badge-success @endif" style="font-size: 100%;">
-                            @if ($item->img == null) NO-IMAGE @else HAS-IMAGE @endif
+                            @if ($item->img == null) <i class="fe fe-x-circle fe-16"></i> @else <i class="fe fe-check-circle fe-16"></i> @endif
                         </span>
                     </td>
                     <td>{{$countSong->where('artist_id', $item->artist_id)->count()}}</td>
@@ -33,7 +33,7 @@
                     <td>{{$item->updated_at}}</td>
                     <td>
                         <span class="badge badge-pill @if($item->deleted_at == null) badge-success @else badge-danger @endif" style="font-size: 100%;">
-                            @if ($item->deleted_at == null) AVAILABLE @else DELETED @endif
+                            @if ($item->deleted_at == null) <i class="fe fe-check-circle fe-16"></i> @else <i class="fe fe-x-circle fe-16"></i> @endif
                         </span>
                     </td>
                     <td><a href="{{url('/artist/update/'.$item->artist_id)}}"><button class="btn btn-primary">Edit</button></a></td>

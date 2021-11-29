@@ -23,7 +23,7 @@
                     <td>{{$item->updated_at}}</td>
                     <td>
                         <span class="badge badge-pill @if($item->deleted_at == null) badge-success @else badge-danger @endif" style="font-size: 100%;">
-                            @if ($item->deleted_at == null) AVAILABLE @else DELETED @endif
+                            @if ($item->deleted_at == null) <i class="fe fe-check-circle fe-16"></i> @else <i class="fe fe-x-circle fe-16"></i> @endif
                         </span>
                     </td>
                     <td><a href="{{url('/admin/update/'.$item->username)}}"><button class="btn btn-primary">Edit</button></a></td>
